@@ -1,0 +1,47 @@
+<?php
+
+/**
+ * @file
+ * Prints PHP code
+ *
+ * Lets a User see the output of his PHP code to develope
+ * their PHP skills
+ */
+  
+  
+/**
+ * Implementation of hook_menu()
+ */
+function phptest_menu() {
+  $items['admin/config/phptest'] = array(
+    'title' => 'PHPTest Module',
+    'description' => 'Adjust PHPTest settings.',
+    'position' => 'right',
+    'weight' => -5,
+    'page callback' => 'system_admin_menu_block_page',
+    'access arguments' => array('administer site configuration'),
+    'file' => 'system.admin.inc',
+    'file path' => drupal_get_path('module', 'system')
+  );
+  
+  $items['admin/config/phptest/settings'] = array(
+    'title' => 'PHPTest Settings',
+    'description' => 'Toggle PHPtest functionality.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('phptest_admin_settings'),
+    'access arguments' => array('administer site configuration'),
+    'type' => MENU_NORMAL_ITEM,
+    'file' => 'phptest.admin.inc'
+  );
+  
+  return $items;
+}
+
+
+/**
+ * Implementation of hook_user_view()
+ */
+function phptest_user_view() {
+ $types = node_type_get_types();
+ print $types[0];
+}

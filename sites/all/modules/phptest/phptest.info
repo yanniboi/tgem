@@ -1,0 +1,7 @@
+name = PHPTest
+description = "Allows Users to test PHP code by printing it in the Watchdog"
+package = Yan's Custom Modules
+core = 7.x
+files[] = phptest.module
+files[] = phptest.admin.inc
+configure = admin/config/phptest/settings

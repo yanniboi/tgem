@@ -1,0 +1,146 @@
+<?php
+
+function clean_form_menu() {
+  $items = array();
+  
+  $items['admin/config/cleanform'] = array(
+    'title' => 'Clean Form Module',
+    'description' => 'Adjust Clean Form settings.',
+    'position' => 'right',
+    'weight' => -5,
+    'page callback' => 'system_admin_menu_block_page',
+    'access arguments' => array('administer site configuration'),
+    'file' => 'system.admin.inc',
+    'file path' => drupal_get_path('module', 'system'),
+  );
+  
+  $items['admin/config/cleanform/settings'] = array(
+    'title' => 'Clean Form Settings',
+    'description' => 'Toggle Clean Form functionality.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('clean_form_admin_settings'),
+    'access arguments' => array('administer site configuration'),
+    'type' => MENU_NORMAL_ITEM,
+    'file' => 'clean_form.admin.inc',
+  );
+  
+  return $items;
+}
+/**
+ * Implements hook_form_alter()
+ */
+
+/*function clean_form_form_alter(&$form, &$form_state, $form_id) {
+  //dsm($form);
+  //debug($form);
+  //kpr($form);
+}
+
+function clean_form_form_user_profile_form_alter(&$form, &$form_state, $form_id) {
+  //dsm($form);
+  //debug($form);
+  //kpr($form);
+  $form_state['redirect'] = 'user';
+  kpr($form_state);
+}
+
+function clean_form_form_user_loginuser_register_form_alter(&$form, &$form_state, $form_id) {
+}
+
+*/
+
+function clean_form_form_front_page_node_form_alter(&$form, &$form_state, $form_id) {
+  $valid = variable_get('toggle');
+ 
+  if ($valid[0] == 'on') {
+    
+    $form['check'] = array(
+      '#type' => 'checkbox',
+      '#title' => t('Advanced settings'),
+      '#weight' => 9,
+    );
+
+    $form['advanced'] = array(
+      '#type' => 'container',
+      '#weight' => 10,
+      '#states' => array(
+        'visible' => array(
+          ':input[name="check"]' => array('checked' => TRUE),
+        ),
+      ),
+    );
+
+    $form['advanced']['field_front_title'] = $form['field_front_title'];
+    unset($form['field_front_title']);
+    $form['advanced']['field_sample_product_link'] = $form['field_sample_product_link'];
+    unset($form['field_sample_product_link']);
+    $form['advanced']['additional_settings'] = $form['additional_settings'];
+    unset($form['additional_settings']);
+  }
+ }
+ 
+ function clean_form_form_commerce_product_ui_product_form_alter(&$form, &$form_state, $form_id) {
+  
+  $valid = variable_get('toggle');  
+  if ($valid[1] == 'on') {
+
+    $form['check_free'] = array(
+      '#type' => 'checkbox',
+      '#title' => t('Is this Product Free?'),
+      '#weight' => 5,
+    );
+
+    $form['check_priced'] = array(
+      '#type' => 'checkbox',
+      '#title' => t('Is this Product Priced?'),
+      '#weight' => 5,
+    );
+
+    $form['purchace_free'] = array(
+      '#type' => 'container',
+      '#weight' => 6,
+      '#states' => array(
+        'visible' => array(
+          ':input[name="check_free"]' => array('checked' => TRUE),
+        ),
+      ),
+    );
+
+    $form['purchace_priced'] = array(
+      '#type' => 'container',
+      '#weight' => 6,
+      '#states' => array(
+        'visible' => array(
+          ':input[name="check_priced"]' => array('checked' => TRUE),
+        ),
+      ),
+    );
+
+    $form['commerce_price']['#weight'] = 7;
+
+    $form['check'] = array(
+      '#type' => 'checkbox',
+      '#title' => t('Advanced settings'),
+      '#weight' => 10,
+    );
+
+    $form['advanced'] = array(
+      '#type' => 'container',
+      '#weight' => 11,
+      '#states' => array(
+        'visible' => array(
+          ':input[name="check"]' => array('checked' => TRUE),
+        ),
+      ),
+    );
+
+    $form['advanced']['field_commerce_file']['und'][0]['data'] = $form['field_commerce_file']['und'][0]['data'];
+    unset($form['field_commerce_file']['und'][0]['data']);
+    $form['advanced']['change_history'] = $form['change_history'];
+    unset($form['change_history']);
+    $form['purchace_priced']['field_commerce_file'] = $form['field_commerce_file'];
+    unset($form['field_commerce_file']);
+    $form['purchace_free']['field_free_commerce_file'] = $form['field_free_commerce_file'];
+    unset($form['field_free_commerce_file']);
+  }
+}

@@ -1,0 +1,7 @@
+name = Annotate
+description = "Annotate Module"
+package = Yan's Custom Modules
+core = 7.x
+files[] = annotate.module
+files[] = annotate.admin.inc
+configure=admin/config/annotate/settings

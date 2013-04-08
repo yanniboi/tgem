@@ -1,0 +1,4 @@
+name = Clean Form
+description = A Module to clean up forms for user comfort.
+core = 7.x
+package = Yan's Custom Modules
